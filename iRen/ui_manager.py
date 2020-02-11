@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 
-from PyQt5.QtCore import pyqtSlot, QFile, QTextStream
+from PyQt5.QtCore import pyqtSlot, QFile, QTextStream, QItemSelectionModel
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QFileDialog, QApplication, QMainWindow
 
@@ -91,9 +91,13 @@ class AppWindow(QMainWindow, Ui_MainWindow):
         saved = self.image_pixmap.save(str(Path(self.destination_folder)/save_filename))
         print("%sly saved to: %s " % (saved, str(Path(self.destination_folder)/save_filename)))
 
+        # If we are saving to the same folder
+        self.files_model.layoutChanged.emit()
+
         # Decorate the file icon so we know it has been successfully saved
         self.files_model.images[row] = (saved, text)
         self.files_model.dataChanged.emit(index, index)
+        return saved
 
     @pyqtSlot(int)
     def on_sync_folders_checkbox_stateChanged(self, state):
@@ -118,10 +122,33 @@ class AppWindow(QMainWindow, Ui_MainWindow):
         self.image_display_label.setMask(self.image_pixmap.mask())
         # self.image_display_label.setScaledContents(True)
         self.image_display_label.show()
+        self.filename_lineedit.setFocus(Qt.NoFocusReason)
+        self.filename_lineedit.selectAll()
+
+    @pyqtSlot()
+    def on_filename_lineedit_returnPressed(self):
+        saved = self.on_save_button_clicked()
+
+        if not saved:
+            return
+        oldindex = self.files_listview.selectedIndexes()[0].row()
+
+        # Compare the index to the row count - 1 cause fucking oython counts from 0
+        if oldindex >= self.files_model.rowCount() - 1:
+            return
+
+        newindex = oldindex + 1
+
+        # Clear selection first before we select the next one
+        self.files_listview.clearSelection()
+
+        newindexobject = self.files_model.createIndex(newindex, 0)
+        self.files_listview.selectionModel().select(newindexobject, QItemSelectionModel.Select)
 
     def display_welcome_graphic(self):
         welcome = image_to_pixmap('Welcome.png')
         self.image_display_label.setPixmap(welcome)
+
 
 def get_filenames(directory, model: ImagefileModel):
     """This method gets all the filenames is a particular directory. There is no recusion, so
