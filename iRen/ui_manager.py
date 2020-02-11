@@ -7,6 +7,7 @@ from PyQt5.QtWidgets import QFileDialog, QApplication, QMainWindow
 
 from MainWindow import *
 from image_list_manager import *
+import breeze_resources
 
 
 class AppWindow(QMainWindow, Ui_MainWindow):
