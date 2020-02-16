@@ -69,13 +69,13 @@ def show_image_and_regions(image, regions, prediction):
 
 def main():
     # Use pathlib to get the os agnostic path to the images
-    path_to_images = Path('/home/parallels/Documents/Python/ALPR-capture/data_sets/dataset4_done')
+    path_to_images = Path('/home/parallels/Documents/Python/ALPR-capture/data_sets/dataset5_done')
     # Build a list of images in the directory
     imagepath = [path_to_images/f for f in path_to_images.iterdir()]
     # Sort them by time modified, so that we can find easily when looking at the file explorer
     imagepath.sort(key=lambda x: os.path.getmtime(x))
 
-    filename = str(imagepath[3])
+    filename = str(imagepath[27])
     try:
         jsonData = postImage(filename)
         # We want to get these coordinates to see what they mean on the image
