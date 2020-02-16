@@ -54,6 +54,7 @@ def show_image_and_regions(image, regions, prediction):
     xs = [r['x'] for r in regions]
     ys = [r['y'] for r in regions]
 
+    # np array that shit
     xs = np.array(xs)
     ys = np.array(ys)
 
@@ -64,8 +65,6 @@ def show_image_and_regions(image, regions, prediction):
     plt.title("Plate number is {} and confidence is {}".format(prediction.plateNumber, prediction.confidence))
 
     plt.show()
-
-
 
 
 def main():
@@ -84,7 +83,8 @@ def main():
         candidates = jsonData["results"][0]["candidates"]
         getVehicleData(candidates)
         show_image_and_regions(filename, coordinates, vehicleData)
-        # print("[INFO] License plate - {} and confidence  - {}".format(vehicleData.plateNumber, vehicleData.confidence))
+        # print("[INFO] License plate - {} and confidence  - {}"
+        # .format(vehicleData.plateNumber, vehicleData.confidence))
     except IndexError:
         print("[INFO] cannot detect car plates")
 
