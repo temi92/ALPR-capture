@@ -141,7 +141,7 @@ Send2Trash==1.5.0
 six==1.14.0
 smmap2==2.0.5
 tensorboard==1.15.0
-tensorflow==1.15.0
+tensorflow==1.15.2
 tensorflow-data-validation==0.15.0
 tensorflow-datasets==1.2.0
 tensorflow-estimator==1.15.1
