@@ -69,6 +69,7 @@ def show_image_and_regions(image, regions, prediction):
 
 def main():
     # Use pathlib to get the os agnostic path to the images
+    # Edit this!!!
     path_to_images = Path('/home/parallels/Documents/Python/ALPR-capture/data_sets/dataset5_done')
     # Build a list of images in the directory
     imagepath = [path_to_images/f for f in path_to_images.iterdir()]
