@@ -40,6 +40,7 @@ failedImages = 0 #cannot detect license plate region
 mislabelledImages = 0 #detected license plate but region failed to get vehicle number identification correct
 totalImages = 0
 
+
 def postImage(image_path):
     with open(image_path, 'rb') as image_file:
         img_base64 = base64.b64encode(image_file.read())
@@ -91,7 +92,7 @@ if __name__ == "__main__":
 
 			#ignore images with 2 or more car plate regions..
 			if len(jsonData["results"]) >= 2:
-				print ("skipped image has 2 car regions in it")
+				print ("skipped {} ..has 2 or more car regions in it".format(images[i]))
 				continue
 
 			if getVehicleData(jsonData):
@@ -113,9 +114,10 @@ if __name__ == "__main__":
 
 			bar.update(i)
 
-	print ("STATS #########")
+	print ("STATS REPORT #########")
 	print ("Total Number of images {}".format(totalImages))
 	print ("Number of images passed {}".format(successImages))
 	print ("Number of images failed {}".format(failedImages))
 	print ("Number of images mislabelled {}".format(mislabelledImages))
 	
+
